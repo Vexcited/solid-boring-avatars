@@ -1,0 +1,44 @@
+{
+  "name": "solid-boring-avatars",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Tiny SolidJS library that generates custom, SVG-based avatars from any username and color palette. Port of boring-avatars for Solid.",
+  "homepage": "https://boringavatars.com/",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Vexcited/solid-boring-avatars"
+  },
+  "bugs": {
+    "url": "https://github.com/Vexcited/solid-boring-avatars/issues"
+  },
+  "keywords": [
+    "avatar",
+    "gravatar",
+    "profile picture",
+    "user avatar",
+    "avatar generator",
+    "avatar placeholder"
+  ],
+  "author": "Mikkel RINGAUD <mikkel@milescode.dev> (https://github.com/Vexcited)",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^18.13.0",
+    "solid-js": "^1.6.10",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.1",
+    "vite-plugin-dts": "^1.7.2",
+    "vite-plugin-solid": "^2.5.0"
+  },
+  "peerDependencies": {
+    "solid-js": "^1.6.10"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "noErrorTruncation": true,
+
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+
+    "strict": true,
+    "noEmit": true,
+
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"]
+    },
+
+    "types": ["vite/client"]
+  }
+}
