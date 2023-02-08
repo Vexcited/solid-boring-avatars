@@ -8,8 +8,7 @@ export default defineConfig({
   plugins: [
     dts({
       outputDir: "dist",
-      staticImport: true,
-      logDiagnostics: true
+      staticImport: true
     }),
 
     solid()

@@ -1,6 +1,8 @@
 import type { VoidComponent } from "solid-js";
 import type { AvatarProps } from "@/avatars";
+
 import AvatarBeam from "@/avatars/Beam";
+import AvatarBauhaus from "@/avatars/Bauhaus";
 
 import { Switch, Match, mergeProps } from "solid-js";
 
@@ -16,6 +18,7 @@ const variants = [
 const Avatar: VoidComponent<Partial<AvatarProps> & {
   variant:
     | "beam"
+    | "bauhaus"
 }> = (props) => {
   // Default values taken from <https://github.com/boringdesigners/boring-avatars/blob/master/src/lib/components/avatar.js#L13-L21>.
   const merged = mergeProps({
@@ -46,6 +49,9 @@ const Avatar: VoidComponent<Partial<AvatarProps> & {
     <Switch>
       <Match when={variant() === "beam"}>
         <AvatarBeam {...avatarProps()} />
+      </Match>
+      <Match when={variant() === "bauhaus"}>
+        <AvatarBauhaus {...avatarProps()} />
       </Match>
     </Switch>
   );
