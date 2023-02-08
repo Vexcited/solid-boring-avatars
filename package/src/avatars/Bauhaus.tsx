@@ -71,7 +71,7 @@ const AvatarBauhaus: VoidComponent<AvatarProps> = (props) => {
           y1={SIZE / 2}
           x2={SIZE}
           y2={SIZE / 2}
-          strokeWidth={2}
+          stroke-width={2}
           stroke={properties[3].color}
           transform={
             'translate(' +
