@@ -1,11 +1,12 @@
 import type { VoidComponent } from "solid-js";
-import type { AvatarProps } from ".";
+import type { AvatarComponentProps } from ".";
 
+import { Show, createMemo } from "solid-js";
 import { hashCode, getUnit, getBoolean, getRandomColor, getContrast } from "@/core/utils";
 
 const SIZE = 36;
 
-function generateData(name: string, colors: string[]) {
+const generateData = (name: string, colors: string[]) => {
   const numFromName = hashCode(name);
   const range = colors && colors.length;
   const wrapperColor = getRandomColor(numFromName, colors, range);
@@ -14,12 +15,12 @@ function generateData(name: string, colors: string[]) {
   const preTranslateY = getUnit(numFromName, 10, 2);
   const wrapperTranslateY = preTranslateY < 5 ? preTranslateY + SIZE / 9 : preTranslateY;
 
-  const data = {
+  return {
     wrapperColor: wrapperColor,
     faceColor: getContrast(wrapperColor),
     backgroundColor: getRandomColor(numFromName + 13, colors, range),
-    wrapperTranslateX: wrapperTranslateX,
-    wrapperTranslateY: wrapperTranslateY,
+    wrapperTranslateX,
+    wrapperTranslateY,
     wrapperRotate: getUnit(numFromName, 360),
     wrapperScale: 1 + getUnit(numFromName, SIZE / 12) / 10,
     isMouthOpen: getBoolean(numFromName, 2),
@@ -32,28 +33,39 @@ function generateData(name: string, colors: string[]) {
     faceTranslateY:
       wrapperTranslateY > SIZE / 6 ? wrapperTranslateY / 2 : getUnit(numFromName, 7, 2),
   };
-
-  return data;
 }
 
-const AvatarBeam: VoidComponent<AvatarProps> = (props) => {
-  const data = generateData(props.name, props.colors);
+const AvatarBeam: VoidComponent<AvatarComponentProps> = (props) => {
+  const data = createMemo(() => generateData(props.name, props.colors));
 
   return (
-    <svg
-      viewBox={'0 0 ' + SIZE + ' ' + SIZE}
+    <svg xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${SIZE} ${SIZE}`}
+      height={props.size}
+      width={props.size}
       fill="none"
       role="img"
-      xmlns="http://www.w3.org/2000/svg"
-      width={props.size}
-      height={props.size}
     >
-      {props.title && <title>{props.name}</title>}
-      <mask id="mask__beam" maskUnits="userSpaceOnUse" x={0} y={0} width={SIZE} height={SIZE}>
-        <rect width={SIZE} height={SIZE} rx={props.square ? undefined : SIZE * 2} fill="#FFFFFF" />
+      <Show when={props.title}>
+        <title>{props.name}</title>
+      </Show>
+
+      <mask id="mask__beam"
+        maskUnits="userSpaceOnUse"
+        height={SIZE}
+        width={SIZE}
+        x={0} y={0}
+      >
+        <rect
+          width={SIZE}
+          height={SIZE}
+          rx={props.square ? undefined : SIZE * 2}
+          fill="#FFFFFF"
+        />
       </mask>
+
       <g mask="url(#mask__beam)">
-        <rect width={SIZE} height={SIZE} fill={data.backgroundColor} />
+        <rect width={SIZE} height={SIZE} fill={data().backgroundColor} />
         <rect
           x="0"
           y="0"
@@ -61,30 +73,30 @@ const AvatarBeam: VoidComponent<AvatarProps> = (props) => {
           height={SIZE}
           transform={
             'translate(' +
-            data.wrapperTranslateX +
+            data().wrapperTranslateX +
             ' ' +
-            data.wrapperTranslateY +
+            data().wrapperTranslateY +
             ') rotate(' +
-            data.wrapperRotate +
+            data().wrapperRotate +
             ' ' +
             SIZE / 2 +
             ' ' +
             SIZE / 2 +
             ') scale(' +
-            data.wrapperScale +
+            data().wrapperScale +
             ')'
           }
-          fill={data.wrapperColor}
-          rx={data.isCircle ? SIZE : SIZE / 6}
+          fill={data().wrapperColor}
+          rx={data().isCircle ? SIZE : SIZE / 6}
         />
         <g
           transform={
             'translate(' +
-            data.faceTranslateX +
+            data().faceTranslateX +
             ' ' +
-            data.faceTranslateY +
+            data().faceTranslateY +
             ') rotate(' +
-            data.faceRotate +
+            data().faceRotate +
             ' ' +
             SIZE / 2 +
             ' ' +
@@ -92,36 +104,36 @@ const AvatarBeam: VoidComponent<AvatarProps> = (props) => {
             ')'
           }
         >
-          {data.isMouthOpen ? (
+          {data().isMouthOpen ? (
             <path
-              d={'M15 ' + (19 + data.mouthSpread) + 'c2 1 4 1 6 0'}
-              stroke={data.faceColor}
+              d={'M15 ' + (19 + data().mouthSpread) + 'c2 1 4 1 6 0'}
+              stroke={data().faceColor}
               fill="none"
               stroke-linecap="round"
             />
           ) : (
             <path
-              d={'M13,' + (19 + data.mouthSpread) + ' a1,0.75 0 0,0 10,0'}
-              fill={data.faceColor}
+              d={'M13,' + (19 + data().mouthSpread) + ' a1,0.75 0 0,0 10,0'}
+              fill={data().faceColor}
             />
           )}
           <rect
-            x={14 - data.eyeSpread}
+            x={14 - data().eyeSpread}
             y={14}
             width={1.5}
             height={2}
             rx={1}
             stroke="none"
-            fill={data.faceColor}
+            fill={data().faceColor}
           />
           <rect
-            x={20 + data.eyeSpread}
+            x={20 + data().eyeSpread}
             y={14}
             width={1.5}
             height={2}
             rx={1}
             stroke="none"
-            fill={data.faceColor}
+            fill={data().faceColor}
           />
         </g>
       </g>

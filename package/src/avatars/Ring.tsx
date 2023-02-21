@@ -1,5 +1,5 @@
 import type { VoidComponent } from "solid-js";
-import type { AvatarProps } from ".";
+import type { AvatarComponentProps } from ".";
 
 import { hashCode, getRandomColor } from '@/core/utils';
 
@@ -26,15 +26,14 @@ function generateColors(colors: string[], name: string) {
   return colorsList;
 }
 
-const AvatarRing: VoidComponent<AvatarProps> = (props) => {
+const AvatarRing: VoidComponent<AvatarComponentProps> = (props) => {
   const ringColors = generateColors(props.colors, props.name);
 
   return (
-    <svg
-      viewBox={'0 0 ' + SIZE + ' ' + SIZE}
+    <svg xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${SIZE} ${SIZE}`}
       fill="none"
       role="img"
-      xmlns="http://www.w3.org/2000/svg"
       width={props.size}
       height={props.size}
     >

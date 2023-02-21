@@ -1,16 +1,16 @@
 import type { VoidComponent } from "solid-js";
-import type { AvatarProps } from "@/avatars";
-
-import AvatarBeam from "@/avatars/Beam";
-import AvatarBauhaus from "@/avatars/Bauhaus";
-import AvatarMarble from "@/avatars/Marble";
-import AvatarPixel from "@/avatars/Pixel";
-import AvatarRing from "@/avatars/Ring";
-import AvatarSunset from "@/avatars/Sunset";
+import type { AvatarComponentProps } from "@/avatars";
 
 import { Switch, Match, mergeProps } from "solid-js";
 
-const variants = [
+import AvatarBeam from "@/avatars/Beam";
+import AvatarRing from "@/avatars/Ring";
+import AvatarPixel from "@/avatars/Pixel";
+import AvatarMarble from "@/avatars/Marble";
+import AvatarSunset from "@/avatars/Sunset";
+import AvatarBauhaus from "@/avatars/Bauhaus";
+
+const VARIANTS = [
   "pixel",
   "bauhaus",
   "ring",
@@ -19,42 +19,43 @@ const variants = [
   "marble"
 ] as const;
 
-const Avatar: VoidComponent<Partial<AvatarProps> & {
-  variant:
-    | "beam"
-    | "bauhaus"
-    | "marble"
-    | "pixel"
-    | "ring"
-    | "sunset"
-}> = (props) => {
-  // Default values taken from <https://github.com/boringdesigners/boring-avatars/blob/master/src/lib/components/avatar.js#L13-L21>.
-  const merged = mergeProps({
-    variant: "marble",
-    colors: ['#92A1C6', '#146A7C', '#F0AB3D', '#C271B4', '#C20D90'],
-    name: 'Clara Barton',
-    square: false,
-    title: false,
-    size: 40,
-  }, props);
+export type AvatarProps = AvatarComponentProps & {
+  variant: typeof VARIANTS[number]
+}
 
-  const variant = () => {
-    if (variants.includes(merged.variant)) {
-      return merged.variant;
+const DEFAULT_PROPS: AvatarProps = {
+  variant: "marble",
+  colors: ['#92A1C6', '#146A7C', '#F0AB3D', '#C271B4', '#C20D90'],
+  name: 'Clara Barton',
+  square: false,
+  title: false,
+  size: 40,
+};
+
+const Avatar: VoidComponent<Partial<AvatarProps>> = (raw_props) => {
+  // Default values taken from <https://github.com/boringdesigners/boring-avatars/blob/master/src/lib/components/avatar.js#L13-L21>.
+  const props = mergeProps(DEFAULT_PROPS, raw_props);
+
+  /** Checked variant to prevent not existing variant. */
+  const variant = (): typeof VARIANTS[number] => {
+    if (VARIANTS.includes(props.variant)) {
+      return props.variant;
     }
 
     return "marble";
   };
 
-  const avatarProps = (): AvatarProps => ({
-    name: merged.name,
-    square: merged.square,
-    size: merged.size,
-    colors: merged.colors
+  /** Props for avatar components. */
+  const avatarProps = (): AvatarComponentProps => ({
+    name: props.name,
+    size: props.size,
+    title: props.title,
+    colors: props.colors,
+    square: props.square
   })
 
   return (
-    <Switch>
+    <Switch fallback={<AvatarMarble {...avatarProps()} />}>
       <Match when={variant() === "beam"}>
         <AvatarBeam {...avatarProps()} />
       </Match>
@@ -75,7 +76,6 @@ const Avatar: VoidComponent<Partial<AvatarProps> & {
       </Match>
     </Switch>
   );
-}
+};
 
 export default Avatar;
-

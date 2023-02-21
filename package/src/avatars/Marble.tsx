@@ -1,6 +1,7 @@
 import type { VoidComponent } from "solid-js";
-import type { AvatarProps } from ".";
+import type { AvatarComponentProps } from ".";
 
+import { Show, createMemo } from "solid-js";
 import { hashCode, getUnit, getRandomColor } from "@/core/utils";
 
 const ELEMENTS = 3;
@@ -21,64 +22,63 @@ function generateColors(name: string, colors: string[]) {
   return elementsProperties;
 }
 
-const AvatarMarble: VoidComponent<AvatarProps> = (props) => {
-  const properties = generateColors(props.name, props.colors);
+const AvatarMarble: VoidComponent<AvatarComponentProps> = (props) => {
+  const properties = createMemo(() => generateColors(props.name, props.colors));
 
   return (
-    <svg
-      viewBox={'0 0 ' + SIZE + ' ' + SIZE}
+    <svg xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${SIZE} ${SIZE}`}
       fill="none"
       role="img"
-      xmlns="http://www.w3.org/2000/svg"
       width={props.size}
       height={props.size}
     >
-      {props.title && <title>{props.name}</title>}
+      <Show when={props.title}>
+        <title>{props.name}</title>
+      </Show>
       <mask id="mask__marble" maskUnits="userSpaceOnUse" x={0} y={0} width={SIZE} height={SIZE}>
         <rect width={SIZE} height={SIZE} rx={props.square ? undefined : SIZE * 2} fill="#FFFFFF" />
       </mask>
       <g mask="url(#mask__marble)">
-        <rect width={SIZE} height={SIZE} fill={properties[0].color} />
+        <rect width={SIZE} height={SIZE} fill={properties()[0].color} />
         <path
           filter="url(#prefix__filter0_f)"
           d="M32.414 59.35L50.376 70.5H72.5v-71H33.728L26.5 13.381l19.057 27.08L32.414 59.35z"
-          fill={properties[1].color}
+          fill={properties()[1].color}
           transform={
             'translate(' +
-            properties[1].translateX +
+            properties()[1].translateX +
             ' ' +
-            properties[1].translateY +
+            properties()[1].translateY +
             ') rotate(' +
-            properties[1].rotate +
+            properties()[1].rotate +
             ' ' +
             SIZE / 2 +
             ' ' +
             SIZE / 2 +
             ') scale(' +
-            properties[2].scale +
+            properties()[2].scale +
             ')'
           }
         />
         <path
           filter="url(#prefix__filter0_f)"
-          style={{
-            mixBlendMode: 'overlay',
-          }}
+          style={{ "mix-blend-mode": "overlay" }}
           d="M22.216 24L0 46.75l14.108 38.129L78 86l-3.081-59.276-22.378 4.005 12.972 20.186-23.35 27.395L22.215 24z"
-          fill={properties[2].color}
+          fill={properties()[2].color}
           transform={
             'translate(' +
-            properties[2].translateX +
+            properties()[2].translateX +
             ' ' +
-            properties[2].translateY +
+            properties()[2].translateY +
             ') rotate(' +
-            properties[2].rotate +
+            properties()[2].rotate +
             ' ' +
             SIZE / 2 +
             ' ' +
             SIZE / 2 +
             ') scale(' +
-            properties[2].scale +
+            properties()[2].scale +
             ')'
           }
         />
@@ -87,9 +87,9 @@ const AvatarMarble: VoidComponent<AvatarProps> = (props) => {
         <filter
           id="prefix__filter0_f"
           filterUnits="userSpaceOnUse"
-          colorInterpolationFilters="sRGB"
+          color-interpolation-filters="sRGB"
         >
-          <feFlood floodOpacity={0} result="BackgroundImageFix" />
+          <feFlood flood-opacity={0} result="BackgroundImageFix" />
           <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
           <feGaussianBlur stdDeviation={7} result="effect1_foregroundBlur" />
         </filter>

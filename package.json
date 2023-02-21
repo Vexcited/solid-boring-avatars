@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "release": "pnpm --filter solid-boring-avatars release"
+    "release": "pnpm --filter solid-boring-avatars release",
+    "build-package": "pnpm --filter solid-boring-avatars build",
+    "run-demo": "pnpm --filter solid-boring-avatars-example dev"
   }
 }

@@ -1,9 +1,9 @@
 export { default as AvatarBeam } from "./Beam";
 
-export interface AvatarProps {
+export interface AvatarComponentProps {
   name: string;
-  title?: string;
-  size?: number | string;
-  square?: boolean;
+  title: boolean;
+  size: number | string;
+  square: boolean;
   colors: string[];
 }

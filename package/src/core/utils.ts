@@ -1,3 +1,6 @@
+/** Join strings from parameters with a space. */
+export const join = (...arrs: string[]) => arrs.join(" ");
+
 export const hashCode = (name: string) => {
   let hash = 0;
 
