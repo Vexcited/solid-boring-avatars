@@ -84,7 +84,6 @@ const App: Component = () => {
         <Item variant="marble" size={state.size} title={state.appendTitleTag} square={state.square} name={state.name} colors={state.colors} />
         <Item variant="sunset" size={state.size} title={state.appendTitleTag} square={state.square} name={state.name} colors={state.colors} />
         <Item variant="ring" size={state.size} title={state.appendTitleTag} square={state.square} name={state.name} colors={state.colors} />
-        <Item variant="beam" size={state.size} title={state.appendTitleTag} square={state.square} name={state.name} colors={state.colors} />
         <Item variant="bauhaus" size={state.size} title={state.appendTitleTag} square={state.square} name={state.name} colors={state.colors} />
       </div>
     </div>
