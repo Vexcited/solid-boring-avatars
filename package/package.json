@@ -1,6 +1,6 @@
 {
   "name": "solid-boring-avatars",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "description": "Tiny SolidJS library that generates custom, SVG-based avatars from any username and color palette. Port of boring-avatars for Solid.",
   "homepage": "https://boringavatars.com/",
