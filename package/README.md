@@ -6,8 +6,6 @@ Tiny SolidJS library that generates custom, SVG-based avatars from any username 
 
 ## Installation
 
-> TODO: Publish the library to NPM.
-
 ```bash
 npm install --save solid-boring-avatars
 yarn add solid-boring-avatars
